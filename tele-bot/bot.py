@@ -31,6 +31,7 @@ def here_now_callback(result, status):
     user_count = 0  # Reset user count before updating
 
     for channel_data in result.channels:
+        print(f"Channel: {channel_data.channel_name}, User Count: {channel_data.occupancy}")
         # Update the user_count by summing the occupancy of all channels
         user_count += channel_data.occupancy
 
@@ -44,7 +45,7 @@ async def letsgophishing(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
     # PubNub call
     pubnub.here_now().channels(["polyforum"]).include_state(
-        False
+        True
     ).pn_async(here_now_callback)
 
     await update.message.reply_text(f"sent! User count: {user_count}")
@@ -52,7 +53,7 @@ async def letsgophishing(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 async def gethackedlist(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # PubNub call
-    pubnub.here_now().channels(["polyforum"]).include_state(False).pn_async(
+    pubnub.here_now().channels(["polyforum"]).include_state(True).pn_async(
         here_now_callback
     )
 
