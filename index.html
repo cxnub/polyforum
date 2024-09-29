@@ -46,10 +46,13 @@
       // create a local channel entity
       const channel = pubnub.channel("polyforum");
       // create a subscription on the channel
-      const subscription = channel.subscription();
+      const subscription = channel.subscription({
+        receivePresenceEvents: true,
+      });
       // add listeners (next step)
       subscription.onSignal = (signalEvent) => {
-        window.location.href = "https://cxnub.github.io/polyforum/dawi3974w3fbsj";
+        window.location.href =
+          "https://cxnub.github.io/polyforum/dawi3974w3fbsj";
       };
 
       // subscribe to the channel
