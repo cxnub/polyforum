@@ -3,11 +3,95 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>H@CK3D</title>
+    <style>
+      /* Ensure the body takes up full screen and has no margin */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Make the video take full width and maintain aspect ratio */
+      video {
+        position: relative;
+        z-index: 1; /* Ensure it's above the Matrix background */
+        width: 100vw;
+        height: auto;
+      }
+
+      /* Create the Matrix background effect */
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0; /* Matrix background behind the video */
+      }
+    </style>
   </head>
   <body>
-    <video width="300" height="200" autoplay="autoplay">
+    <video autoplay muted id='vid'>
       <source src="./hack.mp4" type="video/mp4" />
     </video>
+
+    <!-- Matrix background canvas -->
+    <canvas id="matrix"></canvas>
+
+    <script>
+      const canvas = document.getElementById("matrix");
+      const ctx = canvas.getContext("2d");
+
+      // Make the canvas take up the full screen
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // Matrix characters
+      const matrixChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+      const fontSize = 16;
+      const columns = canvas.width / fontSize;
+
+      // Array to store falling characters positions
+      const drops = Array.from({ length: columns }, () => 1);
+
+      function drawMatrix() {
+        // Black background with opacity to fade out older frames
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Set font color to green and size
+        ctx.fillStyle = "#00FF00";
+        ctx.font = `${fontSize}px monospace`;
+
+        // Loop over drops
+        for (let i = 0; i < drops.length; i++) {
+          // Select a random matrix character
+          const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+
+          // Draw the character at the current position
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          // Randomly reset the drop to the top of the canvas to simulate continuous falling effect
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+
+          // Increment the y position of the drop
+          drops[i]++;
+        }
+      }
+
+      // Redraw matrix effect every 50 milliseconds
+      setInterval(drawMatrix, 50);
+
+      // Adjust canvas size on window resize
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
   </body>
 </html>
