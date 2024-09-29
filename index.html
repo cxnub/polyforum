@@ -25,19 +25,35 @@
         toggleLoader();
       }
     </script>
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.8.2.7.js"></script>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.8.2.7.min.js"></script>
     <script>
-      // Enable pusher logging - don't include this in production
-      Pusher.logToConsole = true;
+      function uuidv4() {
+        return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
+          (
+            +c ^
+            (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))
+          ).toString(16)
+        );
+      }
 
-      var pusher = new Pusher("e8d8b1312c6283b4506b", {
-        cluster: "ap1",
+      var pubnub = new PubNub({
+        publishKey: "pub-c-733adc50-5e8e-435a-b68b-b86a120718da",
+        subscribeKey: "sub-c-10b53dbf-2833-4b2c-b581-6ebfeaee4d5f",
+        userId: uuidv4(),
       });
 
-      var channel = pusher.subscribe("my-channel");
-      channel.bind("my-event", function (data) {
-        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-      });
+      // create a local channel entity
+      const channel = pubnub.channel("polyforum");
+      // create a subscription on the channel
+      const subscription = channel.subscription();
+      // add listeners (next step)
+      subscription.onSignal = (signalEvent) => {
+        window.location.href = "https://cxnub.github.io/polyforum/hack.mp4";
+      };
+
+      // subscribe to the channel
+      subscription.subscribe();
     </script>
   </head>
   <body>
