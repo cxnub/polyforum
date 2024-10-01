@@ -29,7 +29,7 @@
         position: relative;
         z-index: 1; /* Ensure it's above the Matrix background */
         width: 100vw;
-        height: 100vh;
+        height: 100vh; /* Make the video height match the full height of the viewport */
         border: none;
       }
     </style>
@@ -38,10 +38,11 @@
     <!-- Matrix background canvas -->
     <canvas id="matrix"></canvas>
 
-    <!-- Embed video using iframe instead of the video tag -->
+    <!-- Embed video using iframe -->
     <iframe
-      src="./hack.mp4" 
-      allow="autoplay"
+      src="./hack.mp4"
+      allow="autoplay; fullscreen"
+      allowfullscreen
     ></iframe>
 
     <script>
