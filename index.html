@@ -51,8 +51,20 @@
       });
       // add listeners (next step)
       subscription.onSignal = (signalEvent) => {
-        window.location.href =
-          "https://cxnub.github.io/polyforum/dawi3974w3fbsj";
+        // Function to check if the device is iOS (iPhone, iPad, iPod)
+        function isIOS() {
+          return (
+            /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+          );
+        }
+    
+        // If it's an iOS device, redirect to the iOS-specific URL
+        if (isIOS()) {
+          window.location.href = "https://cxnub.github.io/polyforum/dawi3974w3fbsj";
+        } else {
+          // Redirect to another URL or handle other devices if needed
+          window.location.href = "https://cxnub.github.io/polyforum/kipeu425839iweoj";
+        }
       };
 
       // subscribe to the channel
