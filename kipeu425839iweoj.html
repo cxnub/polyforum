@@ -14,6 +14,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        background: black;
       }
 
       /* Create the Matrix background effect */
@@ -21,16 +22,57 @@
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 0; /* Matrix background behind the iframe */
+        z-index: 0; /* Matrix background behind the text */
       }
 
-      /* Fullscreen iframe */
-      iframe {
+      /* Hacked text styling */
+      h1 {
+        color: #00FF00; /* Glowing green color like Matrix */
+        font-family: 'Courier New', Courier, monospace; /* Monospace font for hacker vibe */
+        font-size: 5vw;
+        text-shadow: 0 0 10px #00FF00, 0 0 20px #00FF00, 0 0 30px #00FF00;
         position: relative;
         z-index: 1; /* Ensure it's above the Matrix background */
-        width: 100vw;
-        height: 100vh; /* Make the video height match the full height of the viewport */
-        border: none;
+        animation: blink 1s infinite alternate;
+      }
+
+      /* Blinking effect */
+      @keyframes blink {
+        0% { opacity: 1; }
+        100% { opacity: 0.1; }
+      }
+
+      /* Glitch effect for hacked text */
+      h1::before, h1::after {
+        content: 'H@CK3D';
+        position: absolute;
+        left: 0;
+        color: #00FF00;
+        background: black;
+        overflow: hidden;
+        clip: rect(0, 900px, 0, 0);
+        animation: glitch 2s infinite;
+      }
+
+      h1::before {
+        left: 2px;
+        text-shadow: -2px 0 red;
+        animation: glitch-anim 2s infinite linear alternate-reverse;
+      }
+
+      h1::after {
+        left: -2px;
+        text-shadow: -2px 0 blue;
+        animation: glitch-anim 3s infinite linear alternate-reverse;
+      }
+
+      @keyframes glitch-anim {
+        0% { clip: rect(24px, 9999px, 36px, 0); }
+        20% { clip: rect(85px, 9999px, 100px, 0); }
+        40% { clip: rect(50px, 9999px, 70px, 0); }
+        60% { clip: rect(25px, 9999px, 45px, 0); }
+        80% { clip: rect(10px, 9999px, 30px, 0); }
+        100% { clip: rect(60px, 9999px, 80px, 0); }
       }
     </style>
   </head>
@@ -38,12 +80,8 @@
     <!-- Matrix background canvas -->
     <canvas id="matrix"></canvas>
 
-    <!-- Embed video using iframe -->
-    <iframe
-      src="./hack.mp4"
-      allow="autoplay; fullscreen"
-      allowfullscreen
-    ></iframe>
+    <!-- Hacked message text -->
+    <h1>H@CK3D</h1>
 
     <script>
       const canvas = document.getElementById("matrix");
